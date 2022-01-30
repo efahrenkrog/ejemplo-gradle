@@ -20,7 +20,7 @@ pipeline {
                             // Run Maven on a Unix agent to execute Sonar.
                             sh 'chmod +x gradlew'
                             sh 'chmod +x gradle'
-                            sh './gradle sonarqube -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
+                            sh './gradlew sonarqube -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
                         }
                     }
                     stage("Paso 3: Curl Springboot Gradle sleep 20"){
