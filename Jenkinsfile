@@ -19,6 +19,7 @@ pipeline {
                             sh "echo 'Calling sonar by ID!'"
                             // Run Maven on a Unix agent to execute Sonar.
                             sh 'chmod +x gradlew'
+                            sh 'chmod +x gradle'
                             sh './gradle sonarqube -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
                         }
                     }
