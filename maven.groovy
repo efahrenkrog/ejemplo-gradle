@@ -8,15 +8,14 @@ def call(){
     sh "mvn clean compile -e"
   }
   stage("Paso 2: Testear"){
-​
-    sh "mvn clean test -e"
+​    sh "mvn clean test -e"
   }
   stage("Paso 3: Build .Jar"){
     sh "mvn clean package -e"
   }
   stage("Paso 4: Sonar - Análisis Estático"){
       sh "echo 'Análisis Estático!'"
-      withSonarQubeEnv('sonarqube3') {
+      withSonarQubeEnv('sonarqube') {
           sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
       }
   }
@@ -25,7 +24,7 @@ def call(){
       sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
   }
   stage("Paso 6: Subir Nexus"){
-      nexusPublisher nexusInstanceId: 'nexus3',
+      nexusPublisher nexusInstanceId: 'nexus',
       nexusRepositoryId: 'devops-usach-nexus',
       packages: [
           [$class: 'MavenPackage',
