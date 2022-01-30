@@ -1,41 +1,39 @@
 pipeline {
     agent any
     environment {
-        NEXUS_USER         = credentials('NEXUS-USER')
-        NEXUS_PASSWORD     = credentials('NEXUS-PASS')
+        NEXUS_USER         = credentials('user-nexus')
+        NEXUS_PASSWORD     = credentials('password-nexus')
     }
-    
     parameters {
-    choice choices: ['maven', 'gradle'], description: 'Seleccione una herramienta', name: 'compileTool'
+        choice(
+            name:'compileTool',
+            choices: ['Maven', 'Gradle'],
+            description: 'Seleccione herramienta de compilacion'
+        )
     }
-
-
-
     stages {
         stage("Pipeline"){
             steps {
                 script{
-                    sh "env"
-                    if(params.compileTool == 'maven'){
-                        // compilamos con maven
-                        def executor = load "maven.groovy"
-                        executor.call()
-                    }else{
-                        // compila mos con Gradle    
-                        def executor = load "gradle.groovy"
-                        executor.call()
+                  switch(params.compileTool)
+                    {
+                        case 'Maven':
+                            def ejecucion = load 'maven.groovy'
+                            ejecucion.call()
+                        break;
+                        case 'Gradle':
+                            def ejecucion = load 'gradle.groovy'
+                            ejecucion.call()
+                        break;
                     }
                 }
             }
-            post {
-                always {
-                    sh "echo 'fase always executed post'"
+            post{
+                success{
+                    slackSend color: 'good', message: "[Su Nombre] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'token-slack'
                 }
-                success {
-                    sh "echo 'fase success'"
-                }
-                failure {
-                    sh "echo 'fase failure'"
+                failure{
+                    slackSend color: 'danger', message: "[Su Nombre] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.TAREA}]", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'token-slack'
                 }
             }
         }
