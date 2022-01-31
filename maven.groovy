@@ -9,7 +9,7 @@ def call(){
   }
   stage("Paso 2: Testear"){
 ​    sh "mvn clean test -e"
-  }
+  } 
   stage("Paso 3: Build .Jar"){
     sh "echo 'mvn clean package -e'"  
     sh "mvn clean package -e"
