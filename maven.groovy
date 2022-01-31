@@ -7,15 +7,9 @@ def call(){
   stage("Paso 1: Compliar"){
     sh "mvn clean compile -e"
   }
-  stage("Paso 1.1: Compliar 2"){
-    sh "mvn clean compile -e"
-  }
-
-
-
   stage("Paso 2: Testear"){
-​    sh "mvn clean test -e"
-  } 
+    sh "mvn clean test -e"
+  }
   stage("Paso 3: Build .Jar"){
     sh "echo 'mvn clean package -e'"  
     sh "mvn clean package -e"
