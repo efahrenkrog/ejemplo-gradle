@@ -1,3 +1,3 @@
-library ('salida')
+library ('lib')
 // ejecucion.call()
 gatillo.call()
