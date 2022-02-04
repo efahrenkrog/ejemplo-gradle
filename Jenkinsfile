@@ -1,3 +1,3 @@
-library ('lib')
+library ('pipeline')
 // ejecucion.call()
 gatillo.call()
