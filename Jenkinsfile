@@ -1,3 +1,4 @@
 library ('pipeline')
-// ejecucion.call()
-gatillo.call()
+//@Library('pipeline') _
+ejecucion // .call()
+//gatillo.call()
